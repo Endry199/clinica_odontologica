@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNEFA | Sonrisa Perfecta</title>
+    
+    <link rel="icon" href="images/logo.ico" type="image/x-icon">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variables de colores e identidades visuales modernas */
+        :root {
+            --primary: #0077b6;
+            --primary-dark: #03045e;
+            --secondary: #00b4d8;
+            --accent: #90e0ef;
+            --light-bg: #f4f9fc;
+            --white: #ffffff;
+            --text-main: #2b2d42;
+            --text-muted: #6c757d;
+            --card-shadow: 0 15px 35px rgba(0, 119, 182, 0.08);
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Reseteo básico y suavizado */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            color: var(--text-main);
+            line-height: 1.6;
+            background-color: var(--light-bg);
+            overflow-x: hidden;
+        }
+
+        /* Encabezado Inmersivo */
+        header {
+            background-color: rgba(250, 253, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 15px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            transition: var(--transition-smooth);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            height: 70px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+            font-size: 15px;
+            position: relative;
+            transition: var(--transition-smooth);
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--secondary);
+            transition: var(--transition-smooth);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Botón general estilizado */
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 12px 28px;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 20px rgba(0, 180, 216, 0.3);
+            cursor: pointer;
+            display: inline-block;
+            transition: var(--transition-smooth);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 119, 182, 0.4);
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        }
+
+        /* Sección Hero Mejorada */
+        .hero {
+            position: relative;
+            min-height: calc(90vh - 70px);
+            display: flex;
+            align-items: center;
+            padding: 60px 8%;
+            background: radial-gradient(circle at 90% 10%, var(--accent) 0%, rgba(255,255,255,0) 60%),
+                        linear-gradient(135deg, #e0f2fe 0%, var(--white) 100%);
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1;
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--primary-dark);
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 17px;
+            margin-bottom: 35px;
+            color: var(--text-muted);
+        }
+
+        .hero-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-img {
+            width: 100%;
+            max-width: 500px;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 30px 80px 30px 30px;
+            box-shadow: 0 25px 50px rgba(3, 4, 94, 0.15);
+            animation: floating 6s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Sección de Servicios */
+        .servicios {
+            padding: 100px 8%;
+            text-align: center;
+            background-color: var(--white);
+        }
+
+        .servicios h2 {
+            font-size: 38px;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .servicios .subtitle {
+            color: var(--text-muted);
+            margin-bottom: 60px;
+            font-size: 16px;
+        }
+
+        .grid-servicios {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 15fr));
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: var(--light-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(0, 119, 182, 0.05);
+            transition: var(--transition-smooth);
+            text-align: left;
+        }
+
+        .card-img-wrapper {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 14.5px;
+        }
+
+        .card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 45px rgba(0, 119, 182, 0.15);
+            border-color: var(--secondary);
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.08);
+            filter: brightness(0.9);
+        }
+
+        /* Sección de Citas Integrada */
+        .citas {
+            padding: 100px 8%;
+            background: linear-gradient(135deg, #023e8a 0%, #0077b6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+            color: var(--white);
+            position: relative;
+        }
+
+        .citas-info {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .citas-info h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .citas-info p {
+            margin-bottom: 30px;
+            color: var(--accent);
+            font-size: 16px;
+        }
+
+        .citas-img {
+            width: 100%;
+            max-width: 450px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .form-container {
+            background: var(--white);
+            padding: 45px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            color: var(--text-main);
+        }
+
+        .form-container h3 {
+            font-size: 24px;
+            color: var(--primary-dark);
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--primary-dark);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--text-main);
+            background-color: #f8fafc;
+            transition: var(--transition-smooth);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background-color: var(--white);
+            box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15);
+        }
+
+        /* Estilo especial para alinear el campo V/E con la cédula */
+        .cedula-flex {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .cedula-flex select {
+            width: 80px; /* Ancho fijo para el selector de V o E */
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .cedula-flex input {
+            flex: 1; /* El input de texto ocupa el resto del espacio */
+        }
+
+        /* Pie de página */
+        footer {
+            background-color: var(--primary-dark);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer p {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        footer .location {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* Responsividad Avanzada */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 40px;
+            }
+            .hero-text {
+                max-width: 100%;
+            }
+            .citas {
+                flex-direction: column;
+                padding: 60px 5%;
+            }
+            .citas-info {
+                text-align: center;
+                max-width: 100%;
+            }
+            .citas-img {
+                display: none; 
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+            nav ul {
+                gap: 20px;
+            }
+            .hero h1 {
+                font-size: 36px;
+            }
+            .form-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo Clínica UNEFA" class="logo-img"> 
+            Servicio Odontológico <span>UNEFA</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#contacto">Agendar</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-text">
+            <h1>Tu sonrisa es el reflejo de tu <span>excelencia</span></h1>
+            <p>Atención odontológica integral de alta calidad con equipamiento avanzado. Diseñado para cuidar la salud y la estética bucal de toda la comunidad unefista.</p>
+            <a href="#contacto" class="btn">Solicitar una Cita</a>
+        </div>
+        <div class="hero-image-container">
+            <img src="images/hero-dentist.jpg" alt="Instalaciones Odontológicas UNEFA" class="hero-img">
+        </div>
+    </section>
+
+    <section id="servicios" class="servicios">
+        <h2>Nuestros Servicios</h2>
+        <p class="subtitle">Especialidades clínicas a tu disposición con estándares profesionales</p>
+        
+        <div class="grid-servicios">
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="images/limpieza.jpg" alt="Limpieza Dental Avanzada" class="card-img">
+                </div>
+                <div class="card-body">
+                    <h3>Limpieza Dental</h3>
+                    <p>Eliminación profunda de placa bacteriana y sarro mediante ultrasonido para prevenir enfermedades periodontales y mantener un aliento fresco.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="images/ortodoncia.jpg" alt="Tratamientos de Ortodoncia" class="card-img">
+                </div>
+                <div class="card-body">
+                    <h3>Ortodoncia</h3>
+                    <p>Alineación y corrección funcional de las piezas dentales utilizando técnicas tradicionales o sistemas estéticos modernos adaptados a ti.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="images/blanqueamiento.jpg" alt="Blanqueamiento Dental Estético" class="card-img">
+                </div>
+                <div class="card-body">
+                    <h3>Blanqueamiento</h3>
+                    <p>Tratamientos cosméticos de última generación que aclaran múltiples tonos de color de forma segura, rápida y sin dañar el esmalte.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="citas">
+        <div class="citas-info">
+            <h2>Da el primer paso hacia una boca sana</h2>
+            <p>Selecciona el horario y servicio que mejor se adapte a tus actividades académicas o laborales. Nuestro equipo te confirmará a la brevedad.</p>
+            <img src="images/cta-dental.jpg" alt="Atención Odontológica" class="citas-img">
+        </div>
+
+        <div class="form-container">
+            <h3>Agenda tu Consulta</h3>
+            <form name="citas-odontologia" method="POST" data-netlify="true">
+                
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo</label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez">
+                </div>
+
+                <div class="form-group">
+                    <label for="cedula">Cédula de Identidad</label>
+                    <div class="cedula-flex">
+                        <select id="nacionalidad" name="nacionalidad">
+                            <option value="V">V</option>
+                            <option value="E">E</option>
+                        </select>
+                        <input type="text" id="cedula" name="cedula" required pattern="[0-9]+" placeholder="Ej: 12345678">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico</label>
+                    <input type="email" id="correo" name="correo" required placeholder="Ej: tu-email@ejemplo.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono / WhatsApp</label>
+                    <input type="tel" id="telefono" name="telefono" required placeholder="Ej: 04121234567">
+                </div>
+                
+                <div class="form-group">
+                    <label for="servicio">Servicio de Interés</label>
+                    <select id="servicio" name="servicio">
+                        <option value="limpieza">Limpieza Dental</option>
+                        <option value="ortodoncia">Ortodoncia</option>
+                        <option value="blanqueamiento">Blanqueamiento</option>
+                        <option value="revision">Revisión General</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fecha">Fecha Preferida</label>
+                    <input type="date" id="fecha" name="fecha" required>
+                </div>
+                
+                <button type="submit" class="btn" style="width: 100%; border-radius: 10px; margin-top: 10px;">Enviar Solicitud</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p class="location">📍 Servicio Odontológico UNEFA - Núcleo Miranda, Sede Los Teques</p>
+        <p>&copy; 2026 Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
