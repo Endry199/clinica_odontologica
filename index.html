@@ -587,7 +587,7 @@ document.getElementById('formulario-cita').addEventListener('submit', async (e) 
 
     try {
         // Ajusta esta URL a la ruta de tu función en Netlify (.netlify/functions/nombre-de-tu-archivo)
-        const response = await fetch('/.netlify/functions/tu-funcion', {
+        const response = await fetch('/.netlify/functions/submission-created.js', {
             method: 'POST',
             body: JSON.stringify({ payload: { data: formData, form_name: 'citas-odontologia' } })
         });
