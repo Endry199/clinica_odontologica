@@ -1,4 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
+const fetch = require('node-fetch');
 
 exports.handler = async (event, context) => {
     try {
@@ -15,14 +16,14 @@ exports.handler = async (event, context) => {
         const { nombre, nacionalidad, cedula, correo, telefono, servicio, fecha } = formData;
 
         // ==========================================
-        // 2. GUARDAR EN SUPABASE (Opcional/Recomendado)
+        // 2. GUARDAR EN SUPABASE
         // ==========================================
         const supabaseUrl = process.env.SUPABASE_URL;
-        const supabaseKey = process.env.SUPABASE_KEY; // Usa la llave de servicio o anon key
+        const supabaseKey = process.env.SUPABASE_KEY; 
         const supabase = createClient(supabaseUrl, supabaseKey);
 
         const { error: dbError } = await supabase
-            .from('citas') // Asegúrate de que tu tabla en Supabase se llame 'citas'
+            .from('citas') 
             .insert([{ 
                 nombre, 
                 cedula: `${nacionalidad}-${cedula}`, 
