@@ -515,52 +515,52 @@
 
         <div class="form-container">
             <h3>Agenda tu Consulta</h3>
-<form name="citas-odontologia" method="POST" action="/gracias.html" data-netlify="true">
-    <input type="hidden" name="form-name" value="citas-odontologia" />
-    
-    <div class="form-group">
-        <label for="nombre">Nombre Completo</label>
-        <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez">
-    </div>
-
-    <div class="form-group">
-        <label for="cedula">Cédula de Identidad</label>
-        <div class="cedula-flex">
-            <select id="nacionalidad" name="nacionalidad">
-                <option value="V">V</option>
-                <option value="E">E</option>
-            </select>
-            <input type="text" id="cedula" name="cedula" required pattern="[0-9]+" placeholder="Ej: 12345678">
+<div class="form-container">
+    <form id="formulario-cita">
+        <div class="form-group">
+            <label for="nombre">Nombre Completo</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez">
         </div>
-    </div>
 
-    <div class="form-group">
-        <label for="correo">Correo Electrónico</label>
-        <input type="email" id="correo" name="correo" required placeholder="Ej: tu-email@ejemplo.com">
-    </div>
+        <div class="form-group">
+            <label for="cedula">Cédula de Identidad</label>
+            <div class="cedula-flex">
+                <select id="nacionalidad" name="nacionalidad">
+                    <option value="V">V</option>
+                    <option value="E">E</option>
+                </select>
+                <input type="text" id="cedula" name="cedula" required pattern="[0-9]+" placeholder="Ej: 12345678">
+            </div>
+        </div>
 
-    <div class="form-group">
-        <label for="telefono">Teléfono / WhatsApp</label>
-        <input type="tel" id="telefono" name="telefono" required placeholder="Ej: 04121234567">
-    </div>
-    
-    <div class="form-group">
-        <label for="servicio">Servicio de Interés</label>
-        <select id="servicio" name="servicio">
-            <option value="limpieza">Limpieza Dental</option>
-            <option value="ortodoncia">Ortodoncia</option>
-            <option value="blanqueamiento">Blanqueamiento</option>
-            <option value="revision">Revisión General</option>
-        </select>
-    </div>
-    
-    <div class="form-group">
-        <label for="fecha">Fecha Preferida</label>
-        <input type="date" id="fecha" name="fecha" required>
-    </div>
-    
-    <button type="submit" class="btn" style="width: 100%; border-radius: 10px; margin-top: 10px;">Enviar Solicitud</button>
-</form>
+        <div class="form-group">
+            <label for="correo">Correo Electrónico</label>
+            <input type="email" id="correo" name="correo" required placeholder="Ej: tu-email@ejemplo.com">
+        </div>
+
+        <div class="form-group">
+            <label for="telefono">Teléfono / WhatsApp</label>
+            <input type="tel" id="telefono" name="telefono" required placeholder="Ej: 04121234567">
+        </div>
+        
+        <div class="form-group">
+            <label for="servicio">Servicio de Interés</label>
+            <select id="servicio" name="servicio">
+                <option value="limpieza">Limpieza Dental</option>
+                <option value="ortodoncia">Ortodoncia</option>
+                <option value="blanqueamiento">Blanqueamiento</option>
+                <option value="revision">Revisión General</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="fecha">Fecha Preferida</label>
+            <input type="date" id="fecha" name="fecha" required>
+        </div>
+        
+        <button type="submit" id="btn-submit" class="btn" style="width: 100%; border-radius: 10px; margin-top: 10px;">Enviar Solicitud</button>
+    </form>
+</div>
         </div>
     </section>
 
@@ -568,6 +568,43 @@
         <p class="location">📍 Servicio Odontológico UNEFA - Núcleo Miranda, Sede Los Teques</p>
         <p>&copy; 2026 Todos los derechos reservados.</p>
     </footer>
+<script>
+document.getElementById('formulario-cita').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('btn-submit');
+    btn.innerText = "Enviando...";
+    btn.disabled = true;
 
+    const formData = {
+        nombre: document.getElementById('nombre').value,
+        nacionalidad: document.getElementById('nacionalidad').value,
+        cedula: document.getElementById('cedula').value,
+        correo: document.getElementById('correo').value,
+        telefono: document.getElementById('telefono').value,
+        servicio: document.getElementById('servicio').value,
+        fecha: document.getElementById('fecha').value
+    };
+
+    try {
+        // Ajusta esta URL a la ruta de tu función en Netlify (.netlify/functions/nombre-de-tu-archivo)
+        const response = await fetch('/.netlify/functions/tu-funcion', {
+            method: 'POST',
+            body: JSON.stringify({ payload: { data: formData, form_name: 'citas-odontologia' } })
+        });
+
+        if (response.ok) {
+            window.location.href = '/gracias.html'; // Ahora sí funcionará si creas este archivo
+        } else {
+            alert('Error al enviar. Intenta de nuevo.');
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Error de conexión.');
+    } finally {
+        btn.innerText = "Enviar Solicitud";
+        btn.disabled = false;
+    }
+});
+</script>
 </body>
 </html>
