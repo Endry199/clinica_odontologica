@@ -14,13 +14,19 @@ exports.handler = async (event, context) => {
 
         // Configuración del servidor de correo saliente
         // Recuerda configurar estas variables de entorno en el panel de Netlify
-        const transporter = nodemailer.createTransport({
-            service: 'gmail', // Puedes usar Gmail, Outlook, Yahoo o SMTP personalizado
-            auth: {
-                user: process.env.EMAIL_USER,     // Tu correo institucional o personal
-                pass: process.env.EMAIL_PASSWORD  // Tu contraseña de aplicación (No la normal)
-            }
-        });
+        // Configuración del servidor de correo saliente (SMTP de Gmail Explícito)
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // true para el puerto 465 (SSL)
+    auth: {
+        user: process.env.EMAIL_USER,     // Tu correo de Gmail
+        pass: process.env.EMAIL_PASSWORD  // Tu código de 16 letras pegadas sin espacios
+    },
+    tls: {
+        rejectUnauthorized: false // Evita bloqueos de seguridad por certificados en la nube
+    }
+});
 
         // Diseño del Correo con Estilo Profesional
         const mailOptions = {
