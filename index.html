@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNEFA | Sonrisa Perfecta</title>
+    <title>UNCM | Sonrisa Perfecta</title>
     
     <link rel="icon" href="images/logo.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -397,8 +397,8 @@
 
     <header>
         <div class="logo">
-            <img src="images/logo.png" alt="Logo Clínica UNEFA" class="logo-img"> 
-            Servicio Odontológico <span>UNEFA</span>
+            <img src="images/logo.png" alt="Logo Clínica UNCM" class="logo-img"> 
+            Servicio Odontológico <span>UNCM</span>
         </div>
         <nav>
             <ul>
@@ -412,7 +412,7 @@
     <section id="inicio" class="hero">
         <div class="hero-text">
             <h1>Tu sonrisa es el reflejo de tu <span>excelencia</span></h1>
-            <p>Atención odontológica integral con el baremo más accesible para toda la gran familia unefista. Estudiantes, trabajadores y público general.</p>
+            <p>Atención odontológica integral con el baremo más accesible para toda la gran familia universitaria. Estudiantes, trabajadores y público general.</p>
             <a href="#contacto" class="btn">Solicitar una Cita</a>
         </div>
         <div class="hero-image-container">
@@ -450,10 +450,10 @@
                     <tr>
                         <td><strong>Raspado</strong></td>
                         <td colspan="2" style="text-align: center; color: var(--text-muted); font-style: italic;">Depende del caso</td>
-                        <td><span class="badge-price">20 $</span></td>
+                        <td><span class="badge-price">-</span></td>
                     </tr>
                     <tr>
-                        <td><strong>Resinas</strong> (Clase I al VI)</td>
+                        <td><strong>Resinas</strong> (Clase I)</td>
                         <td><span class="badge-price">10 $</span></td>
                         <td><span class="badge-price">15 $</span></td>
                         <td><span class="badge-price">20 $</span></td>
@@ -470,8 +470,7 @@
                     </tr>
                     <tr>
                         <td><strong>Emergencia</strong></td>
-                        <td colspan="2" style="text-align: center; color: var(--text-muted); font-style: italic;">Depende del caso</td>
-                        <td><span class="badge-price">20 $</span></td>
+                        <td colspan="3" style="text-align: center; color: var(--text-muted); font-style: italic;">Depende del caso</td>
                     </tr>
                 </tbody>
             </table>
@@ -497,8 +496,8 @@
                 <div class="form-group">
                     <label for="tipo_usuario">Tipo de Usuario</label>
                     <select id="tipo_usuario" name="tipo_usuario" required>
-                        <option value="Estudiante">Estudiante UNEFA</option>
-                        <option value="Trabajador">Trabajador UNEFA</option>
+                        <option value="Estudiante">Estudiante UNCM</option>
+                        <option value="Trabajador">Trabajador UNCM</option>
                         <option value="Otro">Público General (Otro)</option>
                     </select>
                 </div>
@@ -562,7 +561,7 @@
     </section>
 
     <footer>
-        <p class="location">📍 Servicio Odontológico UNEFA - Sede Los Teques</p>
+        <p class="location">📍 Servicio Odontológico UNCM - Humberto Morán, Miranda, Venezuela</p>
         <p>&copy; 2026 Todos los derechos reservados.</p>
     </footer>
 
@@ -602,7 +601,7 @@ document.getElementById('formulario-cita').addEventListener('submit', async (e) 
         correo: document.getElementById('correo').value,
         telefono: document.getElementById('telefono').value,
         servicio: document.getElementById('servicio').value,
-        doctor: document.getElementById('doctor').value, // 👈 MAPEO DE DATOS DEL ODONTÓLOGO INTEGRADO AQUÍ
+        doctor: document.getElementById('doctor').value, 
         imagenBase64: base64Image
     };
 
