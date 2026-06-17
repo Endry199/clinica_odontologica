@@ -11,8 +11,12 @@ exports.handler = async (event, context) => {
             return { statusCode: 200, body: 'Formulario de origen no admitido' };
         }
 
-        const { tipo_usuario, nombre, nacionalidad, cedula, correo, telefono, servicio, imagenBase64 } = formData;
+        // Se extraen los campos enviados por el formulario del paciente
+        const { tipo_usuario, nombre, nacionalidad, cedula, correo, telefono, servicio, imagenBase64, doctor } = formData;
         const cedulaCompleta = `${nacionalidad}-${cedula}`;
+
+        // Si el formulario principal no incluye selector de doctor, se inicializa como 'Por asignar'
+        const doctorAsignado = doctor || 'Por asignar';
 
         // ==========================================
         // 1. REGISTRO EN SUPABASE
@@ -21,7 +25,7 @@ exports.handler = async (event, context) => {
         const supabaseKey = process.env.SUPABASE_KEY; 
         const supabase = createClient(supabaseUrl, supabaseKey);
 
-        // Agrega en tu tabla de Supabase las columnas 'tipo_usuario' si no la tienes
+        // Se insertan los datos incluyendo la nueva columna 'doctor'
         const { error: dbError } = await supabase
             .from('citas') 
             .insert([{ 
@@ -30,7 +34,8 @@ exports.handler = async (event, context) => {
                 correo, 
                 telefono, 
                 servicio,
-                tipo_usuario
+                tipo_usuario,
+                doctor: doctorAsignado
             }]);
 
         if (dbError) console.error("Error al insertar registro en Supabase:", dbError);
@@ -41,6 +46,7 @@ exports.handler = async (event, context) => {
         const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
         const chatId = process.env.TELEGRAM_CHAT_ID;
 
+        // Se incluye la línea del especialista asignado/pendiente en el texto de Telegram
         const mensaje = `🦷 *Nueva Solicitud de Cita UNEFA*\n\n` +
                         `🎖️ *Categoría:* ${tipo_usuario}\n` +
                         `👤 *Paciente:* ${nombre}\n` +
@@ -48,11 +54,12 @@ exports.handler = async (event, context) => {
                         `📧 *Correo:* ${correo}\n` +
                         `📱 *Teléfono:* ${telefono}\n` +
                         `🩺 *Procedimiento:* ${servicio}\n` +
+                        `👨‍⚕️ *Especialista:* ${doctorAsignado}\n` +
                         `💵 *Estado:* Pago adjunto en revisión.`;
 
-        // URL del despliegue en Netlify para confirmar la cita pasándole la info
+        // URL del despliegue en Netlify pasando todas las variables necesarias por URL, incluyendo &doctor=
         const siteUrl = process.env.URL || 'https://tu-sitio.netlify.app'; 
-        const urlConfirmacion = `${siteUrl}/confirmar.html?email=${encodeURIComponent(correo)}&name=${encodeURIComponent(nombre)}&service=${encodeURIComponent(servicio)}`;
+        const urlConfirmacion = `${siteUrl}/confirmar.html?email=${encodeURIComponent(correo)}&name=${encodeURIComponent(nombre)}&service=${encodeURIComponent(servicio)}&doctor=${encodeURIComponent(doctorAsignado)}`;
 
         // Definimos el Inline Keyboard con el botón interactivo
         const inlineKeyboard = {
@@ -67,27 +74,6 @@ exports.handler = async (event, context) => {
         };
 
         let telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
-        let reqBody = {};
-
-        if (imagenBase64) {
-            // Si hay captura de pago enviamos como foto
-            telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendPhoto`;
-            
-            // Creamos un Buffer de Node desde la cadena Base64
-            const buffer = Buffer.from(imagenBase64, 'base64');
-            
-            // Telegram permite enviar fotos mediante Multipart o pasando directamente un archivo si usamos form-data,
-            // pero la forma más limpia en entornos Serverless puros es enviando la foto mediante FormData o subiendo un Blob.
-            // Para evitar dependencias complejas de 'form-data', convertiremos el buffer a InputFile enviándolo de forma nativa:
-            
-            // Truco óptimo: Usar una URL de datos directa si el archivo no supera el límite de tamaño,
-            // o usar multipart. Para asegurar estabilidad usaremos un enfoque JSON enviando la imagen si la API lo permite,
-            // o mandando el texto con la foto usando multipart.
-        }
-
-        // Para evitar problemas de dependencias pesadas en Netlify con multipart/form-data, 
-        // usaremos la vía estructurada: Si pesa muy poco se puede mandar directo, si no, adjuntamos por multipart estándar.
-        // Aquí te dejo la solución nativa más robusta para funciones Node-fetch:
 
         const FormData = require('form-data');
         const form = new FormData();
