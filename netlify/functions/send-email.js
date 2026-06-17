@@ -6,9 +6,11 @@ exports.handler = async (event, context) => {
     }
 
     try {
-        const { email, name, service, fecha, hora } = JSON.parse(event.body);
+        // Se extrae la variable "doctor" enviada desde la administración o el flujo del formulario
+        const { email, name, service, fecha, hora, doctor } = JSON.parse(event.body);
 
-        if (!email || !name || !fecha || !hora) {
+        // Se agrega 'doctor' a las validaciones obligatorias para asegurar que viaje el dato
+        if (!email || !name || !fecha || !hora || !doctor) {
             return { statusCode: 400, body: 'Faltan parámetros requeridos.' };
         }
 
@@ -26,7 +28,7 @@ exports.handler = async (event, context) => {
             }
         });
 
-        // Diseño del Correo con Estilo Profesional
+        // Diseño del Correo con Estilo Profesional incluyendo al Especialista Asignado
         const mailOptions = {
             from: `"Servicio Odontológico UNEFA" <${process.env.EMAIL_USER}>`,
             to: email,
@@ -46,8 +48,12 @@ exports.handler = async (event, context) => {
                             <h3 style="margin-top: 0; color: #03045e; font-size: 16px;">Detalles de la Cita:</h3>
                             <table style="width: 100%; border-collapse: collapse; font-size: 14px; color: #2b2d42;">
                                 <tr>
-                                    <td style="padding: 5px 0; font-weight: 600; width: 120px;">Procedimiento:</td>
+                                    <td style="padding: 5px 0; font-weight: 600; width: 140px;">Procedimiento:</td>
                                     <td style="padding: 5px 0;">${service}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 5px 0; font-weight: 600;">Especialista:</td>
+                                    <td style="padding: 5px 0; color: #03045e; font-weight: 600;">${doctor}</td>
                                 </tr>
                                 <tr>
                                     <td style="padding: 5px 0; font-weight: 600;">Fecha Asignada:</td>
@@ -64,7 +70,7 @@ exports.handler = async (event, context) => {
                     </div>
                     
                     <div style="text-align: center; border-top: 1px solid #e2e8f0; padding-top: 15px; font-size: 12px; color: #a0aec0;">
-                        <p>📍 Servicio Odontológico UNEFA - Sede Los Teques</p>
+                        <p>📍 Servicio Odontológico UNEFA - Sede Miranda</p>
                         <p>Por favor no respondas a este correo automatizado.</p>
                     </div>
                 </div>

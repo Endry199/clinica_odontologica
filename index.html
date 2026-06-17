@@ -194,7 +194,6 @@
             100% { transform: translateY(0px); }
         }
 
-        /* Tabla de Servicios y Precios Modificada */
         .servicios {
             padding: 100px 8%;
             text-align: center;
@@ -251,7 +250,6 @@
             font-size: 14px;
         }
 
-        /* Sección de Citas e Información de Pago */
         .citas {
             padding: 100px 8%;
             background: linear-gradient(135deg, #023e8a 0%, #0077b6 100%);
@@ -273,7 +271,6 @@
             font-weight: 700;
         }
 
-        /* Cuadro de Pago Móvil */
         .pago-movil-box {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(8px);
@@ -544,6 +541,14 @@
                         <option value="Emergencia">Emergencia</option>
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <label for="doctor">Especialista / Horario Disponible</label>
+                    <select id="doctor" name="doctor" required>
+                        <option value="Dra. Werllith Ranjel">Dra. Werllith Ranjel (Lun y Mié de 8:00 AM a 12:00 PM)</option>
+                        <option value="Dr. Nelson Rodriguez">Dr. Nelson Rodriguez (Lun y Mié de 12:00 PM a 4:00 PM)</option>
+                    </select>
+                </div>
                 
                 <div class="form-group">
                     <label for="captura">Adjuntar Captura de Pago</label>
@@ -562,11 +567,10 @@
     </footer>
 
 <script>
-// Función útil para transformar la imagen a Base64 antes de enviarla
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result.split(',')[1]); // Extraemos solo el stream binario
+    reader.onload = () => resolve(reader.result.split(',')[1]);
     reader.onerror = error => reject(error);
 });
 
@@ -598,7 +602,8 @@ document.getElementById('formulario-cita').addEventListener('submit', async (e) 
         correo: document.getElementById('correo').value,
         telefono: document.getElementById('telefono').value,
         servicio: document.getElementById('servicio').value,
-        imagenBase64: base64Image // Viaja incrustado en el JSON de manera limpia
+        doctor: document.getElementById('doctor').value, // 👈 MAPEO DE DATOS DEL ODONTÓLOGO INTEGRADO AQUÍ
+        imagenBase64: base64Image
     };
 
     try {

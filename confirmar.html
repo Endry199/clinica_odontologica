@@ -43,6 +43,7 @@
             border-radius: 10px;
             font-size: 14px;
             background-color: #f8fafc;
+            box-sizing: border-box;
         }
         input:focus { outline: none; border-color: #00b4d8; background: white; }
         .btn-send {
@@ -67,12 +68,17 @@
         <p>Selecciona el bloque de tiempo definitivo para el paciente. Se le enviará una notificación formal por correo electrónico.</p>
         
         <div class="data-box">
-            👤 <strong>Paciente:</strong> <span id=lbl-name>...</span><br>
-            🩺 <strong>Servicio:</strong> <span id=lbl-service>...</span><br>
-            📧 <strong>Destino:</strong> <span id=lbl-email>...</span>
+            👤 <strong>Paciente:</strong> <span id="lbl-name">...</span><br>
+            🩺 <strong>Servicio:</strong> <span id="lbl-service">...</span><br>
+            📧 <strong>Destino:</strong> <span id="lbl-email">...</span><br>
+            👨‍⚕️ <strong>Especialista Preasignado:</strong> <span id="lbl-doctor">...</span>
         </div>
 
         <form id="form-confirmar">
+            <div class="form-group">
+                <label for="doctor_final">Confirmar Especialista / Odontólogo</label>
+                <input type="text" id="doctor_final" placeholder="Nombre del odontólogo" required>
+            </div>
             <div class="form-group">
                 <label for="fecha_final">Fecha de la Cita</label>
                 <input type="date" id="fecha_final" required>
@@ -91,11 +97,18 @@
         const email = urlParams.get('email');
         const name = urlParams.get('name');
         const service = urlParams.get('service');
+        const doctor = urlParams.get('doctor'); // Nueva variable capturada de Telegram
 
-        // Insertamos en el HTML
+        // Insertamos los datos informativos en el HTML
         document.getElementById('lbl-name').innerText = name || 'No definido';
         document.getElementById('lbl-service').innerText = service || 'No definido';
         document.getElementById('lbl-email').innerText = email || 'No definido';
+        document.getElementById('lbl-doctor').innerText = doctor || 'No preasignado';
+
+        // Pre-rellenamos el campo del formulario con el odontólogo que viene de Telegram si existe
+        if (doctor) {
+            document.getElementById('doctor_final').value = doctor;
+        }
 
         document.getElementById('form-confirmar').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -103,14 +116,16 @@
             btn.innerText = "Despachando Correo...";
             btn.disabled = true;
 
+            const doctorInput = document.getElementById('doctor_final').value;
             const fecha = document.getElementById('fecha_final').value;
             const hora = document.getElementById('hora_final').value;
 
             try {
+                // Enviamos los datos estructurados incluyendo el parámetro doctor requerido por la Serverless Function
                 const response = await fetch('/.netlify/functions/send-email', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, name, service, fecha, hora })
+                    body: JSON.stringify({ email, name, service, fecha, hora, doctor: doctorInput })
                 });
 
                 if (response.ok) {
