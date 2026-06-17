@@ -36,7 +36,7 @@
         }
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; font-weight: 500; color: #03045e; font-size: 14px; }
-        input {
+        input, select {
             width: 100%;
             padding: 12px;
             border: 2px solid #e2e8f0;
@@ -44,8 +44,9 @@
             font-size: 14px;
             background-color: #f8fafc;
             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
-        input:focus { outline: none; border-color: #00b4d8; background: white; }
+        input:focus, select:focus { outline: none; border-color: #00b4d8; background: white; }
         .btn-send {
             background: linear-gradient(135deg, #0077b6, #00b4d8);
             color: white;
@@ -84,8 +85,10 @@
                 <input type="date" id="fecha_final" required>
             </div>
             <div class="form-group">
-                <label for="hora_final">Hora Planificada</label>
-                <input type="time" id="hora_final" required>
+                <label for="hora_final">Hora Planificada (Bloques Exactos)</label>
+                <select id="hora_final" required>
+                    <option value="" disabled selected>Selecciona primero un doctor...</option>
+                </select>
             </div>
             <button type="submit" id="btn-action" class="btn-send">Enviar Notificación al Correo</button>
         </form>
@@ -97,7 +100,7 @@
         const email = urlParams.get('email');
         const name = urlParams.get('name');
         const service = urlParams.get('service');
-        const doctor = urlParams.get('doctor'); // Nueva variable capturada de Telegram
+        const doctor = urlParams.get('doctor');
 
         // Insertamos los datos informativos en el HTML
         document.getElementById('lbl-name').innerText = name || 'No definido';
@@ -105,10 +108,48 @@
         document.getElementById('lbl-email').innerText = email || 'No definido';
         document.getElementById('lbl-doctor').innerText = doctor || 'No preasignado';
 
+        const doctorInput = document.getElementById('doctor_final');
+        const horaSelect = document.getElementById('hora_final');
+
         // Pre-rellenamos el campo del formulario con el odontólogo que viene de Telegram si existe
         if (doctor) {
-            document.getElementById('doctor_final').value = doctor;
+            doctorInput.value = doctor;
         }
+
+        // FUNCIÓN NUEVA: Filtra los bloques de horas disponibles según las reglas del doctor actual
+        function actualizarBloquesHorarios() {
+            const nombreDoctor = doctorInput.value.trim().toLowerCase();
+            let opcionesHtml = '<option value="" disabled selected>Seleccione una hora exacta...</option>';
+
+            // Si el nombre del doctor contiene "werllit" (Filtro matutino de 8:00 AM a 12:00 PM, última cita 11:00 AM)
+            if (nombreDoctor.includes('werllit')) {
+                opcionesHtml += `
+                    <option value="08:00 AM">08:00 AM - 09:00 AM</option>
+                    <option value="09:00 AM">09:00 AM - 10:00 AM</option>
+                    <option value="10:00 AM">10:00 AM - 11:00 AM</option>
+                    <option value="11:00 AM">11:00 AM - 12:00 PM (Última Consulta)</option>
+                `;
+            } 
+            // Si es cualquier otro doctor masculino/femenino (Filtro vespertino de 12:00 PM a 4:00 PM, última cita 3:00 PM)
+            else if (nombreDoctor !== "") {
+                opcionesHtml += `
+                    <option value="12:00 PM">12:00 PM - 01:00 PM</option>
+                    <option value="01:00 PM">01:00 PM - 02:00 PM</option>
+                    <option value="02:00 PM">02:00 PM - 03:00 PM</option>
+                    <option value="03:00 PM">03:00 PM - 04:00 PM (Última Consulta)</option>
+                `;
+            } else {
+                opcionesHtml = '<option value="" disabled selected>Por favor, ingrese un doctor válido...</option>';
+            }
+
+            horaSelect.innerHTML = opcionesHtml;
+        }
+
+        // Escuchar cuando escriban o cambien el nombre del doctor para actualizar el horario dinámicamente
+        doctorInput.addEventListener('input', actualizarBloquesHorarios);
+        
+        // Ejecución inicial para cargar los horarios correctos al abrir la pestaña
+        actualizarBloquesHorarios();
 
         document.getElementById('form-confirmar').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -116,21 +157,20 @@
             btn.innerText = "Despachando Correo...";
             btn.disabled = true;
 
-            const doctorInput = document.getElementById('doctor_final').value;
+            const doctorValor = doctorInput.value;
             const fecha = document.getElementById('fecha_final').value;
-            const hora = document.getElementById('hora_final').value;
+            const hora = horaSelect.value; // Captura el texto seleccionado (Ej: "11:00 AM")
 
             try {
-                // Enviamos los datos estructurados incluyendo el parámetro doctor requerido por la Serverless Function
                 const response = await fetch('/.netlify/functions/send-email', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, name, service, fecha, hora, doctor: doctorInput })
+                    body: JSON.stringify({ email, name, service, fecha, hora, doctor: doctorValor })
                 });
 
                 if (response.ok) {
                     alert('¡Cita agendada y correo enviado exitosamente!');
-                    window.close(); // Cierra la pestaña si se abrió como popup
+                    window.close();
                 } else {
                     alert('Error enviando el correo. Revisa las credenciales de Nodemailer.');
                 }
