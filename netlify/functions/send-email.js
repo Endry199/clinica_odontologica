@@ -12,21 +12,19 @@ exports.handler = async (event, context) => {
             return { statusCode: 400, body: 'Faltan parámetros requeridos.' };
         }
 
-        // Configuración del servidor de correo saliente
-        // Recuerda configurar estas variables de entorno en el panel de Netlify
-        // Configuración del servidor de correo saliente (SMTP de Gmail Explícito)
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // true para el puerto 465 (SSL)
-    auth: {
-        user: process.env.EMAIL_USER,     // Tu correo de Gmail
-        pass: process.env.EMAIL_PASSWORD  // Tu código de 16 letras pegadas sin espacios
-    },
-    tls: {
-        rejectUnauthorized: false // Evita bloqueos de seguridad por certificados en la nube
-    }
-});
+        // Configuración explícita del servidor de correo saliente (SMTP de Gmail)
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true, // true para el puerto 465 (SSL)
+            auth: {
+                user: process.env.EMAIL_USER,     // Tu correo de Gmail
+                pass: process.env.EMAIL_PASSWORD  // Tu código de 16 letras pegadas sin espacios
+            },
+            tls: {
+                rejectUnauthorized: false // Evita bloqueos de seguridad por certificados en la nube
+            }
+        });
 
         // Diseño del Correo con Estilo Profesional
         const mailOptions = {
@@ -50,7 +48,7 @@ const transporter = nodemailer.createTransport({
                                 <tr>
                                     <td style="padding: 5px 0; font-weight: 600; width: 120px;">Procedimiento:</td>
                                     <td style="padding: 5px 0;">${service}</td>
-                                }
+                                </tr>
                                 <tr>
                                     <td style="padding: 5px 0; font-weight: 600;">Fecha Asignada:</td>
                                     <td style="padding: 5px 0; color: #0077b6; font-weight: 600;">${fecha}</td>
@@ -66,7 +64,7 @@ const transporter = nodemailer.createTransport({
                     </div>
                     
                     <div style="text-align: center; border-top: 1px solid #e2e8f0; padding-top: 15px; font-size: 12px; color: #a0aec0;">
-                        <p>📍 Servicio Odontológico UNEFA - Núcleo Miranda, Sede Los Teques</p>
+                        <p>📍 Servicio Odontológico UNEFA - Sede Los Teques</p>
                         <p>Por favor no respondas a este correo automatizado.</p>
                     </div>
                 </div>
