@@ -6,10 +6,8 @@
     <title>UNEFA | Sonrisa Perfecta</title>
     
     <link rel="icon" href="images/logo.ico" type="image/x-icon">
-    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Variables de colores e identidades visuales modernas */
         :root {
             --primary: #0077b6;
             --primary-dark: #03045e;
@@ -23,7 +21,6 @@
             --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Reseteo básico y suavizado */
         * {
             margin: 0;
             padding: 0;
@@ -43,7 +40,6 @@
             overflow-x: hidden;
         }
 
-        /* Encabezado Inmersivo */
         header {
             background-color: rgba(250, 253, 255, 0.85);
             backdrop-filter: blur(12px);
@@ -114,7 +110,6 @@
             width: 100%;
         }
 
-        /* Botón general estilizado */
         .btn {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: var(--white);
@@ -137,7 +132,6 @@
             background: linear-gradient(135deg, var(--primary-dark), var(--primary));
         }
 
-        /* Sección Hero Mejorada */
         .hero {
             position: relative;
             min-height: calc(90vh - 70px);
@@ -200,7 +194,7 @@
             100% { transform: translateY(0px); }
         }
 
-        /* Sección de Servicios */
+        /* Tabla de Servicios y Precios Modificada */
         .servicios {
             padding: 100px 8%;
             text-align: center;
@@ -211,83 +205,61 @@
             font-size: 38px;
             color: var(--primary-dark);
             margin-bottom: 15px;
-            position: relative;
         }
 
         .servicios .subtitle {
             color: var(--text-muted);
-            margin-bottom: 60px;
+            margin-bottom: 40px;
             font-size: 16px;
         }
 
-        .grid-servicios {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 15fr));
-            gap: 40px;
-            justify-content: center;
+        .table-container {
+            overflow-x: auto;
+            box-shadow: var(--card-shadow);
+            border-radius: 16px;
+            margin-top: 20px;
         }
 
-        .card {
-            background-color: var(--light-bg);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            border: 1px solid rgba(0, 119, 182, 0.05);
-            transition: var(--transition-smooth);
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
             text-align: left;
         }
 
-        .card-img-wrapper {
-            width: 100%;
-            height: 220px;
-            overflow: hidden;
-            position: relative;
+        th, td {
+            padding: 18px 24px;
+            border-bottom: 1px solid #e2e8f0;
         }
 
-        .card-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition-smooth);
-        }
-
-        .card-body {
-            padding: 30px;
-        }
-
-        .card h3 {
-            color: var(--primary-dark);
-            margin-bottom: 12px;
-            font-size: 20px;
+        th {
+            background-color: var(--primary);
+            color: var(--white);
             font-weight: 600;
         }
 
-        .card p {
-            color: var(--text-muted);
-            font-size: 14.5px;
+        tr:hover {
+            background-color: #f8fafc;
         }
 
-        .card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 25px 45px rgba(0, 119, 182, 0.15);
-            border-color: var(--secondary);
+        .badge-price {
+            background: #e0f2fe;
+            color: var(--primary-dark);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
         }
 
-        .card:hover .card-img {
-            transform: scale(1.08);
-            filter: brightness(0.9);
-        }
-
-        /* Sección de Citas Integrada */
+        /* Sección de Citas e Información de Pago */
         .citas {
             padding: 100px 8%;
             background: linear-gradient(135deg, #023e8a 0%, #0077b6 100%);
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: space-between;
             gap: 60px;
             color: var(--white);
-            position: relative;
         }
 
         .citas-info {
@@ -301,20 +273,34 @@
             font-weight: 700;
         }
 
-        .citas-info p {
-            margin-bottom: 30px;
-            color: var(--accent);
-            font-size: 16px;
+        /* Cuadro de Pago Móvil */
+        .pago-movil-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 16px;
+            margin-top: 30px;
         }
 
-        .citas-img {
-            width: 100%;
-            max-width: 450px;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            border: 2px solid rgba(255,255,255,0.2);
+        .pago-movil-box h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--accent);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 5px;
+        }
+
+        .pago-movil-box p {
+            font-size: 15px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .pago-movil-box span {
+            font-weight: 600;
+            color: var(--white);
         }
 
         .form-container {
@@ -337,7 +323,6 @@
 
         .form-group {
             margin-bottom: 20px;
-            position: relative;
         }
 
         .form-group label {
@@ -366,23 +351,26 @@
             box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15);
         }
 
-        /* Estilo especial para alinear el campo V/E con la cédula */
         .cedula-flex {
             display: flex;
             gap: 10px;
         }
         
         .cedula-flex select {
-            width: 80px; /* Ancho fijo para el selector de V o E */
+            width: 80px;
             flex-shrink: 0;
-            cursor: pointer;
         }
 
         .cedula-flex input {
-            flex: 1; /* El input de texto ocupa el resto del espacio */
+            flex: 1;
         }
 
-        /* Pie de página */
+        .file-info {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
         footer {
             background-color: var(--primary-dark);
             color: rgba(255, 255, 255, 0.8);
@@ -401,44 +389,10 @@
             font-weight: 500;
         }
 
-        /* Responsividad Avanzada */
         @media (max-width: 992px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-                padding-top: 40px;
-            }
-            .hero-text {
-                max-width: 100%;
-            }
-            .citas {
-                flex-direction: column;
-                padding: 60px 5%;
-            }
-            .citas-info {
-                text-align: center;
-                max-width: 100%;
-            }
-            .citas-img {
-                display: none; 
-            }
-        }
-
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 20px;
-                padding: 20px;
-            }
-            nav ul {
-                gap: 20px;
-            }
-            .hero h1 {
-                font-size: 36px;
-            }
-            .form-container {
-                padding: 30px 20px;
-            }
+            .hero { flex-direction: column; text-align: center; }
+            .citas { flex-direction: column; padding: 60px 5%; }
+            .citas-info { max-width: 100%; }
         }
     </style>
 </head>
@@ -452,7 +406,7 @@
         <nav>
             <ul>
                 <li><a href="#">Inicio</a></li>
-                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#servicios">Servicios y Costos</a></li>
                 <li><a href="#contacto">Agendar</a></li>
             </ul>
         </nav>
@@ -461,145 +415,207 @@
     <section id="inicio" class="hero">
         <div class="hero-text">
             <h1>Tu sonrisa es el reflejo de tu <span>excelencia</span></h1>
-            <p>Atención odontológica integral de alta calidad con equipamiento avanzado. Diseñado para cuidar la salud y la estética bucal de toda la comunidad unefista.</p>
+            <p>Atención odontológica integral con el baremo más accesible para toda la gran familia unefista. Estudiantes, trabajadores y público general.</p>
             <a href="#contacto" class="btn">Solicitar una Cita</a>
         </div>
         <div class="hero-image-container">
-            <img src="images/hero-dentist.jpg" alt="Instalaciones Odontológicas UNEFA" class="hero-img">
+            <img src="images/hero-dentist.jpg" alt="Instalaciones Odontológicas" class="hero-img">
         </div>
     </section>
 
     <section id="servicios" class="servicios">
-        <h2>Nuestros Servicios</h2>
-        <p class="subtitle">Especialidades clínicas a tu disposición con estándares profesionales</p>
+        <h2>Baremo de Procedimientos</h2>
+        <p class="subtitle">Pagos referenciales en $ a tasa oficial B.C.V.</p>
         
-        <div class="grid-servicios">
-            <div class="card">
-                <div class="card-img-wrapper">
-                    <img src="images/limpieza.jpg" alt="Limpieza Dental Avanzada" class="card-img">
-                </div>
-                <div class="card-body">
-                    <h3>Limpieza Dental</h3>
-                    <p>Eliminación profunda de placa bacteriana y sarro mediante ultrasonido para prevenir enfermedades periodontales y mantener un aliento fresco.</p>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-img-wrapper">
-                    <img src="images/ortodoncia.jpg" alt="Tratamientos de Ortodoncia" class="card-img">
-                </div>
-                <div class="card-body">
-                    <h3>Ortodoncia</h3>
-                    <p>Alineación y corrección funcional de las piezas dentales utilizando técnicas tradicionales o sistemas estéticos modernos adaptados a ti.</p>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-img-wrapper">
-                    <img src="images/blanqueamiento.jpg" alt="Blanqueamiento Dental Estético" class="card-img">
-                </div>
-                <div class="card-body">
-                    <h3>Blanqueamiento</h3>
-                    <p>Tratamientos cosméticos de última generación que aclaran múltiples tonos de color de forma segura, rápida y sin dañar el esmalte.</p>
-                </div>
-            </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Procedimiento</th>
+                        <th>Estudiante</th>
+                        <th>Trabajador</th>
+                        <th>Otro (General)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Consulta</strong></td>
+                        <td><span class="badge-price">5 $</span></td>
+                        <td><span class="badge-price">5 $</span></td>
+                        <td><span class="badge-price">10 $</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tartrectomía, Pulido y Flúor</strong></td>
+                        <td><span class="badge-price">5 $</span></td>
+                        <td><span class="badge-price">10 $</span></td>
+                        <td><span class="badge-price">20 $</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Raspado</strong></td>
+                        <td colspan="2" style="text-align: center; color: var(--text-muted); font-style: italic;">Depende del caso</td>
+                        <td><span class="badge-price">20 $</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Resinas</strong> (Clase I al VI)</td>
+                        <td><span class="badge-price">10 $</span></td>
+                        <td><span class="badge-price">15 $</span></td>
+                        <td><span class="badge-price">20 $</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exodoncia Simple</strong></td>
+                        <td><span class="badge-price">10 $</span></td>
+                        <td><span class="badge-price">10 $</span></td>
+                        <td><span class="badge-price">20 $</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exodoncia Compleja</strong></td>
+                        <td colspan="3" style="text-align: center; color: var(--text-muted); font-style: italic;">Depende del caso (A partir de 10 $)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Emergencia</strong></td>
+                        <td colspan="2" style="text-align: center; color: var(--text-muted); font-style: italic;">Depende del caso</td>
+                        <td><span class="badge-price">20 $</span></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </section>
 
     <section id="contacto" class="citas">
         <div class="citas-info">
-            <h2>Da el primer paso hacia una boca sana</h2>
-            <p>Selecciona el horario y servicio que mejor se adapte a tus actividades académicas o laborales. Nuestro equipo te confirmará a la brevedad.</p>
-            <img src="images/cta-dental.jpg" alt="Atención Odontológica" class="citas-img">
+            <h2>Solicitud de Consultas</h2>
+            <p>Por favor realiza el pago correspondiente al procedimiento deseado y adjunta el comprobante en el formulario para procesar tu asignación.</p>
+            
+            <div class="pago-movil-box">
+                <h4>Datos de Pago Móvil (B.C.V)</h4>
+                <p>Banco: <span>Banco de Venezuela (0102)</span></p>
+                <p>Cédula: <span>V-15.455.951</span></p>
+                <p>Teléfono: <span>0412-9614453</span></p>
+            </div>
         </div>
 
         <div class="form-container">
             <h3>Agenda tu Consulta</h3>
-<div class="form-container">
-    <form id="formulario-cita">
-        <div class="form-group">
-            <label for="nombre">Nombre Completo</label>
-            <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez">
-        </div>
+            <form id="formulario-cita">
+                <div class="form-group">
+                    <label for="tipo_usuario">Tipo de Usuario</label>
+                    <select id="tipo_usuario" name="tipo_usuario" required>
+                        <option value="Estudiante">Estudiante UNEFA</option>
+                        <option value="Trabajador">Trabajador UNEFA</option>
+                        <option value="Otro">Público General (Otro)</option>
+                    </select>
+                </div>
 
-        <div class="form-group">
-            <label for="cedula">Cédula de Identidad</label>
-            <div class="cedula-flex">
-                <select id="nacionalidad" name="nacionalidad">
-                    <option value="V">V</option>
-                    <option value="E">E</option>
-                </select>
-                <input type="text" id="cedula" name="cedula" required pattern="[0-9]+" placeholder="Ej: 12345678">
-            </div>
-        </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo</label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez">
+                </div>
 
-        <div class="form-group">
-            <label for="correo">Correo Electrónico</label>
-            <input type="email" id="correo" name="correo" required placeholder="Ej: tu-email@ejemplo.com">
-        </div>
+                <div class="form-group">
+                    <label for="cedula">Cédula de Identidad</label>
+                    <div class="cedula-flex">
+                        <select id="nacionalidad" name="nacionalidad">
+                            <option value="V">V</option>
+                            <option value="E">E</option>
+                        </select>
+                        <input type="text" id="cedula" name="cedula" required pattern="[0-9]+" placeholder="Ej: 12345678">
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <label for="telefono">Teléfono / WhatsApp</label>
-            <input type="tel" id="telefono" name="telefono" required placeholder="Ej: 04121234567">
-        </div>
-        
-        <div class="form-group">
-            <label for="servicio">Servicio de Interés</label>
-            <select id="servicio" name="servicio">
-                <option value="limpieza">Limpieza Dental</option>
-                <option value="ortodoncia">Ortodoncia</option>
-                <option value="blanqueamiento">Blanqueamiento</option>
-                <option value="revision">Revisión General</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="fecha">Fecha Preferida</label>
-            <input type="date" id="fecha" name="fecha" required>
-        </div>
-        
-        <button type="submit" id="btn-submit" class="btn" style="width: 100%; border-radius: 10px; margin-top: 10px;">Enviar Solicitud</button>
-    </form>
-</div>
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico</label>
+                    <input type="email" id="correo" name="correo" required placeholder="Ej: tu-email@ejemplo.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono / WhatsApp</label>
+                    <input type="tel" id="telefono" name="telefono" required placeholder="Ej: 04121234567">
+                </div>
+                
+                <div class="form-group">
+                    <label for="servicio">Servicio Requerido</label>
+                    <select id="servicio" name="servicio" required>
+                        <option value="Consulta">Consulta</option>
+                        <option value="Tartrectomia/Pulido">Tartrectomía, Pulido y Flúor</option>
+                        <option value="Raspado">Raspado</option>
+                        <option value="Resinas">Resinas (Restauración)</option>
+                        <option value="Exodoncia Simple">Exodoncia Simple</option>
+                        <option value="Exodoncia Compleja">Exodoncia Compleja</option>
+                        <option value="Emergencia">Emergencia</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="captura">Adjuntar Captura de Pago</label>
+                    <input type="file" id="captura" name="captura" accept="image/*" required>
+                    <p class="file-info">Formatos permitidos: JPG, PNG. Máx 4MB.</p>
+                </div>
+                
+                <button type="submit" id="btn-submit" class="btn" style="width: 100%; border-radius: 10px; margin-top: 10px;">Enviar Solicitud</button>
+            </form>
         </div>
     </section>
 
     <footer>
-        <p class="location">📍 Servicio Odontológico UNEFA - Núcleo Miranda, Sede Los Teques</p>
+        <p class="location">📍 Servicio Odontológico UNEFA - Sede Los Teques</p>
         <p>&copy; 2026 Todos los derechos reservados.</p>
     </footer>
+
 <script>
+// Función útil para transformar la imagen a Base64 antes de enviarla
+const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result.split(',')[1]); // Extraemos solo el stream binario
+    reader.onerror = error => reject(error);
+});
+
 document.getElementById('formulario-cita').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('btn-submit');
-    btn.innerText = "Enviando...";
+    btn.innerText = "Procesando Envío...";
     btn.disabled = true;
 
+    const fileInput = document.getElementById('captura');
+    let base64Image = null;
+
+    if (fileInput.files.length > 0) {
+        try {
+            base64Image = await toBase64(fileInput.files[0]);
+        } catch (error) {
+            alert("Error al procesar la imagen adjunta.");
+            btn.innerText = "Enviar Solicitud";
+            btn.disabled = false;
+            return;
+        }
+    }
+
     const formData = {
+        tipo_usuario: document.getElementById('tipo_usuario').value,
         nombre: document.getElementById('nombre').value,
         nacionalidad: document.getElementById('nacionalidad').value,
         cedula: document.getElementById('cedula').value,
         correo: document.getElementById('correo').value,
         telefono: document.getElementById('telefono').value,
         servicio: document.getElementById('servicio').value,
-        fecha: document.getElementById('fecha').value
+        imagenBase64: base64Image // Viaja incrustado en el JSON de manera limpia
     };
 
     try {
-        // Ajusta esta URL a la ruta de tu función en Netlify (.netlify/functions/nombre-de-tu-archivo)
         const response = await fetch('/.netlify/functions/submission-created', {
             method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ payload: { data: formData, form_name: 'citas-odontologia' } })
         });
 
         if (response.ok) {
-            window.location.href = '/gracias.html'; // Ahora sí funcionará si creas este archivo
+            window.location.href = '/gracias.html';
         } else {
-            alert('Error al enviar. Intenta de nuevo.');
+            alert('Error en el servidor al guardar la solicitud. Intente de nuevo.');
         }
     } catch (err) {
         console.error(err);
-        alert('Error de conexión.');
+        alert('Error de conexión con el servidor.');
     } finally {
         btn.innerText = "Enviar Solicitud";
         btn.disabled = false;

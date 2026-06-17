@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignación de Citas | UNEFA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f9fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .panel {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            max-width: 480px;
+            width: 100%;
+        }
+        h2 { color: #03045e; margin-bottom: 10px; font-size: 24px; text-align: center; }
+        p { color: #6c757d; font-size: 14px; margin-bottom: 25px; text-align: center; }
+        .data-box {
+            background: #f8fafc;
+            border-left: 4px solid #0077b6;
+            padding: 15px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 25px;
+            font-size: 14.5px;
+        }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; color: #03045e; font-size: 14px; }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            background-color: #f8fafc;
+        }
+        input:focus { outline: none; border-color: #00b4d8; background: white; }
+        .btn-send {
+            background: linear-gradient(135deg, #0077b6, #00b4d8);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            width: 100%;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        .btn-send:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,180,216,0.3); }
+    </style>
+</head>
+<body>
+
+    <div class="panel">
+        <h2>Confirmación de Consulta</h2>
+        <p>Selecciona el bloque de tiempo definitivo para el paciente. Se le enviará una notificación formal por correo electrónico.</p>
+        
+        <div class="data-box">
+            👤 <strong>Paciente:</strong> <span id=lbl-name>...</span><br>
+            🩺 <strong>Servicio:</strong> <span id=lbl-service>...</span><br>
+            📧 <strong>Destino:</strong> <span id=lbl-email>...</span>
+        </div>
+
+        <form id="form-confirmar">
+            <div class="form-group">
+                <label for="fecha_final">Fecha de la Cita</label>
+                <input type="date" id="fecha_final" required>
+            </div>
+            <div class="form-group">
+                <label for="hora_final">Hora Planificada</label>
+                <input type="time" id="hora_final" required>
+            </div>
+            <button type="submit" id="btn-action" class="btn-send">Enviar Notificación al Correo</button>
+        </form>
+    </div>
+
+    <script>
+        // Extraemos las variables pasadas desde Telegram por URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        const name = urlParams.get('name');
+        const service = urlParams.get('service');
+
+        // Insertamos en el HTML
+        document.getElementById('lbl-name').innerText = name || 'No definido';
+        document.getElementById('lbl-service').innerText = service || 'No definido';
+        document.getElementById('lbl-email').innerText = email || 'No definido';
+
+        document.getElementById('form-confirmar').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-action');
+            btn.innerText = "Despachando Correo...";
+            btn.disabled = true;
+
+            const fecha = document.getElementById('fecha_final').value;
+            const hora = document.getElementById('hora_final').value;
+
+            try {
+                const response = await fetch('/.netlify/functions/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, name, service, fecha, hora })
+                });
+
+                if (response.ok) {
+                    alert('¡Cita agendada y correo enviado exitosamente!');
+                    window.close(); // Cierra la pestaña si se abrió como popup
+                } else {
+                    alert('Error enviando el correo. Revisa las credenciales de Nodemailer.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Fallo de red.');
+            } finally {
+                btn.innerText = "Enviar Notificación al Correo";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
